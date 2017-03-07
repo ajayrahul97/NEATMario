@@ -413,7 +413,7 @@
                         up: !1,
                         accelerate: !1
                     }, n, i = this.input.length; i--;)
-                    for (n in t) t[n] = t[n] || this.input[i][n];
+                    for (n in t) t[n] = t[n] || this.input[i][n];       
                 return t
             },
             load: function(n) {
@@ -422,7 +422,7 @@
                     for (o = [], i = 0; i < n.height; i++) o.push("");
                     this.obstacles.push(o)
                 }
-                for (r = 0, s = e.length; r < s; r++)
+                for (r = 0, s = e.length; r < s; r++)               //it will check for fig_ and remove it ..
                     for (u = e[r], i = 0, f = u.length; i < f; i++) t = u[i], /^fig_/.test(t) && (t = t.substr(4)), /_\dx\d$/.test(t) && (t = t.substr(0, t.length - 4)), p[t] && new p[t](r * 32, (f - i - 1) * 32, this)
             },
             next: function() {
@@ -565,7 +565,7 @@
                     y = this.state,
                     v = this.x,
                     h = this.y,
-                    t = Math.sign(c),
+                    t = Math.sign(c),           //signum
                     r = Math.sign(s),
                     l = this.i,
                     a = l,
@@ -577,9 +577,24 @@
                     n = Math.floor((v + 16 + c) / 32),
                     o;
                 for (t > 0 ? (f = n - a, n = a, e = u.left) : t < 0 && (f = l - n, n = l, e = u.right), v += c, o = 0; o < f; o++) {
+                    //===========
+                    
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST","http://localhost:8001/collides/col", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                var params = "rowindex="+(n+t)+"&columnbottom="+w+"&columntop="+p;
+                xmlhttp.onreadystatechange = function() {
+                  //Call a function when the state changes.
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        console.log(xmlhttp.responseText);
+                    }
+                  }
+                xmlhttp.send(params);
+
                     if (this.collides(n + t, n + t, w, p, e)) {
                         c = 0, v = n * 32 + 15 * t;
-                        break
+                        break                                           //checing 1row and 1 column..
                     }
                     n += t, l += t, a += t
                 }
@@ -1113,7 +1128,7 @@
                 this.state === h.small ? this.grow() : this.level.playSound("grow"), this.setMarioState(a.fire)
             },
             walk: function(n, t) {
-                this.vx = i.walking_v * (t ? 2 : 1) * (n ? -1 : 1)
+                this.vx = i.walking_v * (t ? 2 : 1) * (n ? -1 : 1) 
             },
             walkRight: function() {
                 this.state === h.small ? this.setupFrames(8, 2, !1, "WalkRightSmall") || this.setImage(n.sprites, 32, 0) : this.marioState === a.normal ? this.setupFrames(9, 2, !1, "WalkRightBig") || this.setImage(n.sprites, 32, 88) : this.marioState === a.fire && (this.setupFrames(9, 2, !1, "WalkRightFire") || this.setImage(n.sprites, 32, 150))

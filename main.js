@@ -1,4 +1,6 @@
 var http = require("http");
+var url = require("url");
+
 // var fs = require("fs");
 // var access = fs.createWriteStream( '../NEATMario/node.access.log', { flags: 'a' })
 //       , error = fs.createWriteStream('../NEATMario/node.error.log', { flags: 'a' });
@@ -7,22 +9,37 @@ var http = require("http");
 // process.stdout.pipe(access);
 // process.stderr.pipe(error);
 
-// http.createServer(function (request, response) {
-//    response.writeHead(200, {'Content-Type': 'text/plain'});
-//    response.end('Hello World\n');
-// }).listen(8002);
+http.createServer(function (request, response) {
+	var path = url.parse(request.url).pathname;
+    if(path == '/collides/col') 
+    {
+      // DataCollection.saveCurrentInputs();
+      // DataCollection.saveInstance(0.5);
+      // // logging mechanism
+      // DataCollection.isInputRecorded = false;
+      // UI.logger.log(path);
+
+       console.log(request);
+
+      response.writeHead(200, {"Content-Type": "text/plain"});
+      response.end("success");
+    }
+
+   // response.writeHead(200, {'Content-Type': 'text/plain'});
+   // response.end('Hello World\n');
+}).listen(8001);
 // console.log('Server running at http://127.0.0.1:8002/');
 
 
-var winston = require('winston');
+// var winston = require('winston');
 
-winston.log('info', 'Hello distributed log files!');
-winston.info('Hello again distributed logs');
+// winston.log('info', 'Hello distributed log files!');
+// winston.info('Hello again distributed logs');
 
-winston.level = 'debug';
-console.warn( 'Now my debug messages are written to console!');
-winston.add(winston.transports.File, { filename: 'node.access.log' });
-winston.remove(winston.transports.Console);
+// winston.level = 'debug';
+// console.warn( 'Now my debug messages are written to console!');
+// winston.add(winston.transports.File, { filename: 'node.access.log' });
+// winston.remove(winston.transports.Console);
 
 var Config={
 
@@ -1058,7 +1075,7 @@ var evaluateCurrent = function(pool){
 	return misclassifications;
 }
 
-var	pool = initializePool();
+// var	pool = initializePool();
 	// initializeRun();
 
 // 5
@@ -1167,7 +1184,7 @@ while (!pool.shouldStop ) {
 		pool.currentFrame += 1;
 	}
 }
-startUtility(pool);
+// startUtility(pool);
 
 //Datastorage
 
